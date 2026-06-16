@@ -1,0 +1,86 @@
+'use client';
+
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+} from 'recharts';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import type { TypeCount } from '@/types/domain';
+
+const TYPE_COLORS: Record<string, string> = {
+  incidente: '#D97548',
+  solicitud: '#2563A6',
+  problema:  '#C53030',
+  cambio:    '#6B8E5A',
+};
+
+const TYPE_LABELS: Record<string, string> = {
+  incidente: 'Incidente',
+  solicitud: 'Solicitud',
+  problema:  'Problema',
+  cambio:    'Cambio',
+};
+
+interface CasesByTypeChartProps {
+  data: TypeCount[];
+}
+
+export default function CasesByTypeChart({ data }: CasesByTypeChartProps) {
+  const chartData = data.map((d) => ({
+    tipo: TYPE_LABELS[d.tipo] ?? d.tipo,
+    cantidad: d.cantidad,
+    color: TYPE_COLORS[d.tipo] ?? '#9CA3AF',
+  }));
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Casos por Tipo</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ResponsiveContainer width="100%" height={220}>
+          <BarChart
+            data={chartData}
+            layout="vertical"
+            margin={{ top: 4, right: 24, left: 8, bottom: 4 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" horizontal={false} />
+            <XAxis
+              type="number"
+              tick={{ fontSize: 11, fill: '#6B7280' }}
+              tickLine={false}
+              axisLine={false}
+            />
+            <YAxis
+              type="category"
+              dataKey="tipo"
+              tick={{ fontSize: 12, fill: '#374151' }}
+              tickLine={false}
+              axisLine={false}
+              width={70}
+            />
+            <Tooltip
+              contentStyle={{
+                border: '1px solid #E5E7EB',
+                borderRadius: 8,
+                fontSize: 12,
+              }}
+              formatter={(value) => [value, 'Casos']}
+            />
+            <Bar dataKey="cantidad" radius={[0, 4, 4, 0]} maxBarSize={28}>
+              {chartData.map((entry, index) => (
+                <Cell key={index} fill={entry.color} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      </CardContent>
+    </Card>
+  );
+}
