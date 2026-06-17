@@ -11,7 +11,7 @@ Gráfico de barras horizontal con casos por área SLA.
 ## Ejemplo
 
 ```tsx
-import CasesByTypeChart from '@/features/dashboard/components/CasesByTypeChart';
+import { CasesByTypeChart } from '@/features/dashboard/components';
 
 <CasesByTypeChart data={data.porTipo} />
 ```

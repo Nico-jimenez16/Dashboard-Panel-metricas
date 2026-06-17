@@ -1,11 +1,7 @@
 'use client';
 
 import Header from '@/components/layout/Header';
-import KPICards from '@/features/dashboard/components/KPICards';
-import MonthlyTrendChart from '@/features/dashboard/components/MonthlyTrendChart';
-import StatusDonutChart from '@/features/dashboard/components/StatusDonutChart';
-import CasesByTypeChart from '@/features/dashboard/components/CasesByTypeChart';
-import CasesByAreaTable from '@/features/dashboard/components/CasesByAreaTable';
+import { KPICards, MonthlyTrendChart, StatusDonutChart, CasesByTypeChart, CasesByAreaTable } from '@/features/dashboard/components';
 import { useDashboardMetrics } from '@/features/dashboard/hooks/useDashboardMetrics';
 import { Loader2 } from 'lucide-react';
 

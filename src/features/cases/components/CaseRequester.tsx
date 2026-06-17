@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui';
 import { Mail, Phone } from 'lucide-react';
 import type { Case } from '@/types/domain';
 

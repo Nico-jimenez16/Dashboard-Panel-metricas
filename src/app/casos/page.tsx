@@ -7,7 +7,7 @@ import CasesTable from '@/features/cases/components/CasesTable';
 import CasesStatsBar from '@/features/cases/components/CasesStatsBar';
 import { useCases } from '@/features/cases/hooks/useCases';
 import { useCasesFilters } from '@/features/cases/hooks/useCasesFilters';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function CasosPage() {

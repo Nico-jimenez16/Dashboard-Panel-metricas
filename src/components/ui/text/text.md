@@ -13,7 +13,7 @@ Componente de texto polimórfico con tokens de tipografía.
 ## Ejemplo
 
 ```tsx
-import { Text } from '@/components/ui/text';
+import { Text } from '@/components/ui';
 import { FONT_SIZE, FONT_WEIGHT } from '@/components/ui/fontTokens';
 
 <Text as="h2" fontSize={FONT_SIZE.LG} fontWeight={FONT_WEIGHT.BOLD}>Título</Text>

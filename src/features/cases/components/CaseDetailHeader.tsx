@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { ChevronRight, Clock, AlertCircle } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge, Button } from '@/components/ui';
 import { formatDateTime, formatRelative, elapsedHours } from '@/lib/formatters';
 import { STATUS_VARIANT, STATUS_LABEL, PRIORITY_VARIANT } from '@/features/cases/constants';
 import type { Case } from '@/types/domain';

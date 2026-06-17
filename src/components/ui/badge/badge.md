@@ -12,7 +12,7 @@ Etiqueta de estado/categoría con variantes de color.
 ## Ejemplo
 
 ```tsx
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@/components/ui';
 
 <Badge variant="success">Cerrado</Badge>
 <Badge variant="warning">Devuelto al Usuario</Badge>

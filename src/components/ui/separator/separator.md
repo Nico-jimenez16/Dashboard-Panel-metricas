@@ -13,7 +13,7 @@ Línea divisoria horizontal o vertical.
 ## Ejemplo
 
 ```tsx
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@/components/ui';
 
 <Separator />
 <Separator orientation="vertical" thickness="2px" />

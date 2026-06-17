@@ -3,8 +3,7 @@
 import Link from 'next/link';
 import { ExternalLink } from 'lucide-react';
 import { createColumnHelper } from '@tanstack/react-table';
-import { Table } from '@/components/ui/Table';
-import { Badge } from '@/components/ui/badge';
+import { Table, Badge } from '@/components/ui';
 import { formatDate } from '@/lib/formatters';
 import { STATUS_VARIANT, STATUS_LABEL, PRIORITY_VARIANT } from '@/features/cases/constants';
 import type { Case } from '@/types/domain';

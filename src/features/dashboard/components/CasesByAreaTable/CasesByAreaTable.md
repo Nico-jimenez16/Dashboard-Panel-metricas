@@ -11,7 +11,7 @@ Tabla de casos agrupados por área SLA con tasa de cierre.
 ## Ejemplo
 
 ```tsx
-import CasesByAreaTable from '@/features/dashboard/components/CasesByAreaTable';
+import { CasesByAreaTable } from '@/features/dashboard/components';
 
 <CasesByAreaTable data={data.porArea} />
 ```

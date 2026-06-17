@@ -1,7 +1,7 @@
 'use client';
 
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui';
 import type { StatusCount } from '@/types/domain';
 
 const STATUS_COLORS: Record<string, string> = {

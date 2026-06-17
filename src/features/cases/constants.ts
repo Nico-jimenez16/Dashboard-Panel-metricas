@@ -1,4 +1,4 @@
-import type { BadgeProps } from '@/components/ui/badge';
+import type { BadgeProps } from '@/components/ui';
 
 export const STATUS_VARIANT: Record<string, BadgeProps['variant']> = {
   Atendido:               'info',

@@ -1,9 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Tabs, TabsList, TabsTrigger, TabsContent, Card, CardContent, Button } from '@/components/ui';
 import { formatDateTime, formatRelative } from '@/lib/formatters';
 import { useNotes } from '@/features/notes/hooks';
 import type { Case } from '@/types/domain';

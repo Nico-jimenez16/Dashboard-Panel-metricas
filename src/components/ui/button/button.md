@@ -12,7 +12,7 @@ Botón con variantes de estilo y tamaño.
 ## Ejemplo
 
 ```tsx
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 
 <Button variant="outline" size="sm">Anterior</Button>
 <Button variant="success">Cerrar caso</Button>

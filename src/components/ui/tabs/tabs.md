@@ -12,7 +12,7 @@ Sistema de pestañas con contexto interno.
 ## Ejemplo
 
 ```tsx
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui';
 
 <Tabs value={view} onValueChange={setView}>
   <TabsList>

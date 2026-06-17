@@ -5,7 +5,7 @@ Contenedor con borde redondeado y sombra. Incluye subcomponentes: `CardHeader`, 
 ## Ejemplo
 
 ```tsx
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui';
 
 <Card>
   <CardHeader>

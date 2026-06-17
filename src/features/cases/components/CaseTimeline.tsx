@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { CheckCircle2, MessageSquare, PlusCircle, Clock } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui';
 import { useNotes } from '@/features/notes/hooks';
 import { formatDateTime, formatRelative } from '@/lib/formatters';
 import type { Case } from '@/types/domain';

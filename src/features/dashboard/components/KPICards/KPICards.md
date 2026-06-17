@@ -11,7 +11,7 @@ Grid de tarjetas con métricas principales del dashboard.
 ## Ejemplo
 
 ```tsx
-import KPICards from '@/features/dashboard/components/KPICards';
+import { KPICards } from '@/features/dashboard/components';
 
 <KPICards metrics={data} />
 ```

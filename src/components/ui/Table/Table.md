@@ -16,7 +16,7 @@ Componente genérico de tabla con sorting, estado de carga y mensaje vacío. Usa
 ## Ejemplo
 
 ```tsx
-import { Table } from '@/components/ui/Table';
+import { Table } from '@/components/ui';
 import { createColumnHelper } from '@tanstack/react-table';
 
 const col = createColumnHelper<MyType>();

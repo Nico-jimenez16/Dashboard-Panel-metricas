@@ -1,5 +1,5 @@
 import { Ticket, AlertCircle, Clock, ShieldAlert } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui';
 import { formatNumber } from '@/lib/formatters';
 import type { DashboardMetrics } from '@/types/domain';
 

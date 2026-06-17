@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui';
 import { STATUS_LABEL } from '@/features/cases/constants';
 import { elapsedHours } from '@/lib/formatters';
 import type { Case } from '@/types/domain';

@@ -1,8 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, Badge } from '@/components/ui';
 import { Loader2, ExternalLink } from 'lucide-react';
 import { useRelatedCases } from '@/features/cases/hooks/useRelatedCases';
 import { STATUS_VARIANT, STATUS_LABEL } from '@/features/cases/constants';

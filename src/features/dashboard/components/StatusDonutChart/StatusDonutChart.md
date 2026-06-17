@@ -12,7 +12,7 @@ Gráfico de dona con distribución de casos por estado.
 ## Ejemplo
 
 ```tsx
-import StatusDonutChart from '@/features/dashboard/components/StatusDonutChart';
+import { StatusDonutChart } from '@/features/dashboard/components';
 
 <StatusDonutChart data={data.porEstado} total={data.totalCasos} />
 ```

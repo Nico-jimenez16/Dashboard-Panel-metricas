@@ -11,7 +11,7 @@ Gráfico de líneas con tendencia mensual de casos recibidos vs cerrados.
 ## Ejemplo
 
 ```tsx
-import MonthlyTrendChart from '@/features/dashboard/components/MonthlyTrendChart';
+import { MonthlyTrendChart } from '@/features/dashboard/components';
 
 <MonthlyTrendChart data={data.tendenciaMensual} />
 ```

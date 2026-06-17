@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui';
 import CaseTimeline from './CaseTimeline';
 import CaseProperties from './CaseProperties';
 import CaseRequester from './CaseRequester';
