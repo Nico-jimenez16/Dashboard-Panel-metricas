@@ -1,24 +1,40 @@
-export type CaseStatus = 'atendido' | 'cerrado' | 'derivado' | 'derivado a proveedor' | 'devuelto al usuario' | 'suspendido';
-export type CasePriority = 'baja' | 'media' | 'alta' | 'critica';
-export type CaseType = 'incidente' | 'solicitud' | 'problema' | 'cambio';
-
 export interface Case {
-  id: string;
-  numero: string;
-  titulo: string;
-  descripcion: string;
-  estado: CaseStatus;
-  prioridad: CasePriority;
-  tipo: CaseType;
-  area: string;
-  categoria: string;
-  asignadoA: string;
-  creadoEn: string;
-  actualizadoEn: string;
-  cerradoEn?: string;
-  slaFecha: string;
-  slaVencido: boolean;
-  notas: string[];
+  id: number;
+  caseNumber: number;
+  status: string;
+  statusId: number;
+  service: string | null;
+  serviceId: number | null;
+  typeCode: string | null;
+  typeId: number | null;
+  priority: string | null;
+  priorityLevel: string | null;
+  branchOffice: string | null;
+  branchCode: string | null;
+  slaArea: string | null;
+  slaId: number | null;
+  subject: string | null;
+  description: string | null;
+  requester: string | null;
+  requesterId: number | null;
+  requesterEmail: string | null;
+  requesterPhone: string | null;
+  assignee: string | null;
+  assigneeId: number | null;
+  team: string | null;
+  teamId: number | null;
+  teamLeader: string | null;
+  teamLeaderId: number | null;
+  createdAt: string;
+  solvedAt: string | null;
+  provider: string | null;
+  providerId: number | null;
+  providerService: string | null;
+  providerClosedAt: string | null;
+  solutionDateType: string | null;
+  // Derived fields
+  resolutionHours: number | null;
+  isClosed: boolean;
 }
 
 export interface MonthlyData {
@@ -28,12 +44,12 @@ export interface MonthlyData {
 }
 
 export interface StatusCount {
-  estado: CaseStatus;
+  estado: string;
   cantidad: number;
 }
 
 export interface TypeCount {
-  tipo: CaseType;
+  tipo: string;
   cantidad: number;
 }
 
@@ -68,10 +84,9 @@ export interface CasesListResponse {
 }
 
 export interface CasesFilters {
-  estado?: CaseStatus;
-  prioridad?: CasePriority;
-  tipo?: CaseType;
-  area?: string;
+  status?: string;
+  priority?: string;
+  slaArea?: string;
   busqueda?: string;
   pagina?: number;
   porPagina?: number;

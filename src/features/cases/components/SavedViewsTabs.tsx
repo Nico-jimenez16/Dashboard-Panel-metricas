@@ -1,7 +1,6 @@
 'use client';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import type { CaseStatus } from '@/types/domain';
 
 interface SavedViewsTabsProps {
   value: string;
@@ -9,13 +8,13 @@ interface SavedViewsTabsProps {
 }
 
 const VIEWS: { value: string; label: string }[] = [
-  { value: 'todos',    label: 'Todos' },
-  { value: 'atendido',  label: 'Atendidos' },
-  { value: 'cerrado',  label: 'Cerrados' },
-  { value: 'derivado',  label: 'Derivados' },
-  { value: 'derivado a proveedor',  label: 'Derivados a Proveedor' },
-  { value: 'devuelto al usuario',  label: 'Devueltos al Usuario' },
-  { value: 'suspendido',  label: 'Suspendidos' },
+  { value: 'todos',                  label: 'Todos' },
+  { value: 'Atendido',               label: 'Atendidos' },
+  { value: 'Cerrado',                label: 'Cerrados' },
+  { value: 'Derivado',               label: 'Derivados' },
+  { value: 'Derivado a proveedor',   label: 'Derivados a Proveedor' },
+  { value: 'Devuelto al usuario',    label: 'Devueltos al Usuario' },
+  { value: 'Suspendido',             label: 'Suspendidos' },
 ];
 
 export default function SavedViewsTabs({ value, onValueChange }: SavedViewsTabsProps) {

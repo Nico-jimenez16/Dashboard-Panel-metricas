@@ -13,35 +13,33 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import type { TypeCount } from '@/types/domain';
 
-const TYPE_COLORS: Record<string, string> = {
-  incidente: '#D97548',
-  solicitud: '#2563A6',
-  problema:  '#C53030',
-  cambio:    '#6B8E5A',
-};
-
-const TYPE_LABELS: Record<string, string> = {
-  incidente: 'Incidente',
-  solicitud: 'Solicitud',
-  problema:  'Problema',
-  cambio:    'Cambio',
-};
+// Paleta cíclica — las claves de tipo son ahora valores de slaArea (dinámicos)
+const PALETTE = [
+  '#D97548',
+  '#2563A6',
+  '#C53030',
+  '#6B8E5A',
+  '#9CA3AF',
+  '#374151',
+  '#D97706',
+  '#7C3AED',
+];
 
 interface CasesByTypeChartProps {
   data: TypeCount[];
 }
 
 export default function CasesByTypeChart({ data }: CasesByTypeChartProps) {
-  const chartData = data.map((d) => ({
-    tipo: TYPE_LABELS[d.tipo] ?? d.tipo,
+  const chartData = data.map((d, i) => ({
+    tipo: d.tipo,
     cantidad: d.cantidad,
-    color: TYPE_COLORS[d.tipo] ?? '#9CA3AF',
+    color: PALETTE[i % PALETTE.length],
   }));
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Casos por Tipo</CardTitle>
+        <CardTitle>Casos por Área SLA</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={220}>
@@ -60,10 +58,10 @@ export default function CasesByTypeChart({ data }: CasesByTypeChartProps) {
             <YAxis
               type="category"
               dataKey="tipo"
-              tick={{ fontSize: 12, fill: '#374151' }}
+              tick={{ fontSize: 11, fill: '#374151' }}
               tickLine={false}
               axisLine={false}
-              width={70}
+              width={140}
             />
             <Tooltip
               contentStyle={{

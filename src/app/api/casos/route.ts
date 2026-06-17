@@ -8,10 +8,9 @@ export async function GET(req: NextRequest) {
     const { searchParams } = req.nextUrl;
 
     const parsed = casesFiltersSchema.safeParse({
-      estado:    searchParams.get('estado')    ?? undefined,
-      prioridad: searchParams.get('prioridad') ?? undefined,
-      tipo:      searchParams.get('tipo')      ?? undefined,
-      area:      searchParams.get('area')      ?? undefined,
+      status:    searchParams.get('status')    ?? undefined,
+      priority:  searchParams.get('priority')  ?? undefined,
+      slaArea:   searchParams.get('slaArea')   ?? undefined,
       busqueda:  searchParams.get('busqueda')  ?? undefined,
       pagina:    searchParams.get('pagina')    ?? undefined,
       porPagina: searchParams.get('porPagina') ?? undefined,

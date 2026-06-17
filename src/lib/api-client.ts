@@ -28,10 +28,9 @@ function buildQuery(params: Record<string, string | number | undefined>): string
 export const apiClient = {
   getCases(filters: CasesFilters = {}): Promise<CasesListResponse> {
     const qs = buildQuery({
-      estado:    filters.estado,
-      prioridad: filters.prioridad,
-      tipo:      filters.tipo,
-      area:      filters.area,
+      status:    filters.status,
+      priority:  filters.priority,
+      slaArea:   filters.slaArea,
       busqueda:  filters.busqueda,
       pagina:    filters.pagina,
       porPagina: filters.porPagina,

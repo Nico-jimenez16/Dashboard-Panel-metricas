@@ -1,26 +1,30 @@
 'use client';
 
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import type { StatusCount } from '@/types/domain';
 
 const STATUS_COLORS: Record<string, string> = {
-  atendido:              '#D97548',
-  cerrado:               '#D97706',
-  derivado:              '#6B8E5A',
-  'derivado a proveedor': '#9CA3AF',
-  'devuelto al usuario': '#4B5563',
-  suspendido:            '#374151',
+  Atendido:              '#D97548',
+  Cerrado:               '#D97706',
+  Derivado:              '#6B8E5A',
+  'Derivado a proveedor': '#9CA3AF',
+  'Devuelto al usuario': '#4B5563',
+  Suspendido:            '#374151',
 };
 
 const STATUS_LABELS: Record<string, string> = {
-  atendido:              'Atendido',
-  cerrado:               'Cerrado',
-  derivado:              'Derivado',
-  'derivado a proveedor': 'Derivado a Proveedor',
-  'devuelto al usuario': 'Devuelto al Usuario',
-  suspendido:            'Suspendido',
+  Atendido:              'Atendido',
+  Cerrado:               'Cerrado',
+  Derivado:              'Derivado',
+  'Derivado a proveedor': 'Derivado a Proveedor',
+  'Devuelto al usuario': 'Devuelto al Usuario',
+  Suspendido:            'Suspendido',
 };
+
+const FALLBACK_COLORS = [
+  '#6B8E5A', '#D97548', '#2563A6', '#C53030', '#9CA3AF', '#374151',
+];
 
 interface StatusDonutChartProps {
   data: StatusCount[];
@@ -28,10 +32,10 @@ interface StatusDonutChartProps {
 }
 
 export default function StatusDonutChart({ data, total }: StatusDonutChartProps) {
-  const chartData = data.map((d) => ({
+  const chartData = data.map((d, i) => ({
     name: STATUS_LABELS[d.estado] ?? d.estado,
     value: d.cantidad,
-    color: STATUS_COLORS[d.estado] ?? '#9CA3AF',
+    color: STATUS_COLORS[d.estado] ?? FALLBACK_COLORS[i % FALLBACK_COLORS.length],
   }));
 
   return (

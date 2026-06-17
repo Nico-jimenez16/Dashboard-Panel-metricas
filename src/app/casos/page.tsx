@@ -9,7 +9,7 @@ import CasesStatsBar from '@/features/cases/components/CasesStatsBar';
 import { useCases } from '@/features/cases/hooks/useCases';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
-import type { CasesFilters, CaseStatus } from '@/types/domain';
+import type { CasesFilters } from '@/types/domain';
 
 export default function CasosPage() {
   const [view, setView]       = useState('todos');
@@ -17,7 +17,7 @@ export default function CasosPage() {
 
   const activeFilters: CasesFilters = {
     ...filters,
-    estado: view !== 'todos' ? (view as CaseStatus) : undefined,
+    status: view !== 'todos' ? view : undefined,
   };
 
   const { data, isLoading, error } = useCases(activeFilters);

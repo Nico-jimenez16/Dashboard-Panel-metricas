@@ -15,7 +15,7 @@ interface CaseInfoTabsProps {
 export default function CaseInfoTabs({ caso }: CaseInfoTabsProps) {
   const [activeTab, setActiveTab] = useState('detalles');
   const [noteText, setNoteText]   = useState('');
-  const { notes, addNote }        = useNotes(caso.id);
+  const { notes, addNote }        = useNotes(String(caso.id));
 
   function handleAddNote() {
     const text = noteText.trim();
@@ -38,26 +38,26 @@ export default function CaseInfoTabs({ caso }: CaseInfoTabsProps) {
           <CardContent className="p-6 space-y-6">
             <div>
               <h3 className="text-sm font-medium text-gray-400 mb-2">Descripción</h3>
-              <p className="text-gray-700">{caso.descripcion}</p>
+              <p className="text-gray-700">{caso.description ?? '—'}</p>
             </div>
 
             <div className="grid grid-cols-2 gap-6 sm:grid-cols-3">
               <div>
                 <p className="text-xs text-gray-400">Tipo</p>
-                <p className="mt-1 font-medium capitalize">{caso.tipo}</p>
+                <p className="mt-1 font-medium">{caso.typeCode ?? '—'}</p>
               </div>
               <div>
-                <p className="text-xs text-gray-400">Categoría</p>
-                <p className="mt-1 font-medium">{caso.categoria}</p>
+                <p className="text-xs text-gray-400">Servicio</p>
+                <p className="mt-1 font-medium">{caso.service ?? '—'}</p>
               </div>
               <div>
-                <p className="text-xs text-gray-400">Última actualización</p>
-                <p className="mt-1 font-medium">{formatRelative(caso.actualizadoEn)}</p>
+                <p className="text-xs text-gray-400">Equipo responsable</p>
+                <p className="mt-1 font-medium">{caso.team ?? '—'}</p>
               </div>
-              {caso.cerradoEn && (
+              {caso.solvedAt && (
                 <div>
                   <p className="text-xs text-gray-400">Cerrado</p>
-                  <p className="mt-1 font-medium">{formatDateTime(caso.cerradoEn)}</p>
+                  <p className="mt-1 font-medium">{formatDateTime(caso.solvedAt)}</p>
                 </div>
               )}
             </div>

@@ -13,11 +13,11 @@ function buildMonthlyTrend(cases: Case[]): MonthlyData[] {
   const map = new Map<string, { recibidos: number; cerrados: number }>();
 
   for (const c of cases) {
-    const key = format(new Date(c.creadoEn), 'MMM yyyy', { locale: es });
+    const key = format(new Date(c.createdAt), 'MMM yyyy', { locale: es });
     const entry = map.get(key) ?? { recibidos: 0, cerrados: 0 };
     entry.recibidos++;
-    if (c.estado === 'cerrado' && c.cerradoEn) {
-      const closedKey = format(new Date(c.cerradoEn), 'MMM yyyy', { locale: es });
+    if (c.isClosed && c.solvedAt) {
+      const closedKey = format(new Date(c.solvedAt), 'MMM yyyy', { locale: es });
       const closedEntry = map.get(closedKey) ?? { recibidos: 0, cerrados: 0 };
       closedEntry.cerrados++;
       map.set(closedKey, closedEntry);
@@ -41,10 +41,11 @@ function buildAreaStats(cases: Case[]): AreaStats[] {
   const map = new Map<string, { total: number; cerrados: number }>();
 
   for (const c of cases) {
-    const entry = map.get(c.area) ?? { total: 0, cerrados: 0 };
+    const area = c.slaArea ?? 'Sin área';
+    const entry = map.get(area) ?? { total: 0, cerrados: 0 };
     entry.total++;
-    if (c.estado === 'cerrado') entry.cerrados++;
-    map.set(c.area, entry);
+    if (c.isClosed) entry.cerrados++;
+    map.set(area, entry);
   }
 
   return Array.from(map.entries())
@@ -61,30 +62,38 @@ export async function getDashboardMetrics(): Promise<DashboardMetrics> {
   return cacheGetOrSet('dashboard_metrics', async () => {
     const cases = await getAllCases();
 
+    const byStatus = (s: string) =>
+      cases.filter((c) => c.status.toLowerCase() === s.toLowerCase()).length;
+
+    // porTipo: agrupado por slaArea (agrupador más significativo disponible)
+    const slaAreaMap = new Map<string, number>();
+    for (const c of cases) {
+      const area = c.slaArea ?? 'Sin área';
+      slaAreaMap.set(area, (slaAreaMap.get(area) ?? 0) + 1);
+    }
+    const porTipo = Array.from(slaAreaMap.entries())
+      .map(([tipo, cantidad]) => ({ tipo, cantidad }))
+      .sort((a, b) => b.cantidad - a.cantidad);
+
     return {
       totalCasos: cases.length,
-      casosAtendidos: cases.filter((c) => c.estado === 'atendido').length,
-      casosCerrados: cases.filter((c) => c.estado === 'cerrado').length,
-      casosDerivados: cases.filter((c) => c.estado === 'derivado').length,
-      casosDerivadosAProveedores: cases.filter((c) => c.estado === 'derivado a proveedor').length,
-      casosDevueltosAlUsuario: cases.filter((c) => c.estado === 'devuelto al usuario').length,
-      casosSuspendidos: cases.filter((c) => c.estado === 'suspendido').length,
-      slaVencidos: cases.filter((c) => c.slaVencido).length,
+      casosAtendidos: byStatus('Atendido'),
+      casosCerrados: cases.filter((c) => c.isClosed).length,
+      casosDerivados: byStatus('Derivado'),
+      casosDerivadosAProveedores: byStatus('Derivado a proveedor'),
+      casosDevueltosAlUsuario: byStatus('Devuelto al usuario'),
+      casosSuspendidos: byStatus('Suspendido'),
+      slaVencidos: 0, // Gestar no expone fecha SLA
       tendenciaMensual: buildMonthlyTrend(cases),
       porEstado: [
-        { estado: 'atendido',   cantidad: cases.filter((c) => c.estado === 'atendido').length },
-        { estado: 'cerrado',  cantidad: cases.filter((c) => c.estado === 'cerrado').length },
-        { estado: 'derivado',   cantidad: cases.filter((c) => c.estado === 'derivado').length },
-        { estado: 'derivado a proveedor', cantidad: cases.filter((c) => c.estado === 'derivado a proveedor').length },
-        { estado: 'devuelto al usuario', cantidad: cases.filter((c) => c.estado === 'devuelto al usuario').length },
-        { estado: 'suspendido', cantidad: cases.filter((c) => c.estado === 'suspendido').length },
+        { estado: 'Atendido',            cantidad: byStatus('Atendido') },
+        { estado: 'Cerrado',             cantidad: byStatus('Cerrado') },
+        { estado: 'Derivado',            cantidad: byStatus('Derivado') },
+        { estado: 'Derivado a proveedor', cantidad: byStatus('Derivado a proveedor') },
+        { estado: 'Devuelto al usuario', cantidad: byStatus('Devuelto al usuario') },
+        { estado: 'Suspendido',          cantidad: byStatus('Suspendido') },
       ],
-      porTipo: [
-        { tipo: 'incidente', cantidad: cases.filter((c) => c.tipo === 'incidente').length },
-        { tipo: 'solicitud', cantidad: cases.filter((c) => c.tipo === 'solicitud').length },
-        { tipo: 'problema',  cantidad: cases.filter((c) => c.tipo === 'problema').length },
-        { tipo: 'cambio',    cantidad: cases.filter((c) => c.tipo === 'cambio').length },
-      ],
+      porTipo,
       porArea: buildAreaStats(cases),
     };
   });

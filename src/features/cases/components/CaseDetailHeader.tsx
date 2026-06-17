@@ -3,29 +3,31 @@ import { ChevronLeft } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { formatDateTime } from '@/lib/formatters';
-import type { Case, CasePriority, CaseStatus } from '@/types/domain';
+import type { Case } from '@/types/domain';
 
-const STATUS_VARIANT: Record<CaseStatus, 'info' | 'warning' | 'success' | 'secondary'> = {
-  atendido:              'info',
-  cerrado:               'success',
-  derivado:              'secondary',
-  'derivado a proveedor': 'secondary',
-  'devuelto al usuario': 'warning',
-  suspendido:            'secondary',
+const STATUS_VARIANT: Record<string, 'info' | 'warning' | 'success' | 'secondary'> = {
+  Atendido:              'info',
+  Cerrado:               'success',
+  Derivado:              'secondary',
+  'Derivado a proveedor': 'secondary',
+  'Devuelto al usuario': 'warning',
+  Suspendido:            'secondary',
 };
-const STATUS_LABEL: Record<CaseStatus, string> = {
-  atendido:              'Atendido',
-  cerrado:               'Cerrado',
-  derivado:              'Derivado',
-  'derivado a proveedor': 'Derivado a Proveedor',
-  'devuelto al usuario': 'Devuelto al Usuario',
-  suspendido:            'Suspendido',
+
+const STATUS_LABEL: Record<string, string> = {
+  Atendido:              'Atendido',
+  Cerrado:               'Cerrado',
+  Derivado:              'Derivado',
+  'Derivado a proveedor': 'Derivado a Proveedor',
+  'Devuelto al usuario': 'Devuelto al Usuario',
+  Suspendido:            'Suspendido',
 };
-const PRIORITY_VARIANT: Record<CasePriority, 'destructive' | 'warning' | 'secondary' | 'outline'> = {
-  critica: 'destructive', alta: 'warning', media: 'secondary', baja: 'outline',
-};
-const PRIORITY_LABEL: Record<CasePriority, string> = {
-  critica: 'Crítica', alta: 'Alta', media: 'Media', baja: 'Baja',
+
+const PRIORITY_VARIANT: Record<string, 'destructive' | 'warning' | 'secondary' | 'outline'> = {
+  '1': 'destructive',
+  '2': 'warning',
+  '3': 'secondary',
+  '4': 'outline',
 };
 
 interface CaseDetailHeaderProps {
@@ -47,32 +49,37 @@ export default function CaseDetailHeader({ caso }: CaseDetailHeaderProps) {
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-3 mb-2">
-            <span className="font-mono text-sm text-gray-400">{caso.numero}</span>
-            <Badge variant={STATUS_VARIANT[caso.estado]}>{STATUS_LABEL[caso.estado]}</Badge>
-            <Badge variant={PRIORITY_VARIANT[caso.prioridad]}>{PRIORITY_LABEL[caso.prioridad]}</Badge>
-            {caso.slaVencido && <Badge variant="destructive">SLA Vencido</Badge>}
+            <span className="font-mono text-sm text-gray-400">{String(caso.caseNumber)}</span>
+            <Badge variant={STATUS_VARIANT[caso.status] ?? 'secondary'}>
+              {STATUS_LABEL[caso.status] ?? caso.status}
+            </Badge>
+            {caso.priorityLevel && (
+              <Badge variant={PRIORITY_VARIANT[caso.priorityLevel] ?? 'outline'}>
+                {caso.priority ?? caso.priorityLevel}
+              </Badge>
+            )}
           </div>
-          <h1 className="text-xl font-semibold text-gray-900">{caso.titulo}</h1>
+          <h1 className="text-xl font-semibold text-gray-900">{caso.subject ?? '—'}</h1>
         </div>
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-4 text-sm sm:grid-cols-4">
         <div>
-          <p className="text-xs text-gray-400">Área</p>
-          <p className="font-medium text-gray-900">{caso.area}</p>
+          <p className="text-xs text-gray-400">Área SLA</p>
+          <p className="font-medium text-gray-900">{caso.slaArea ?? '—'}</p>
         </div>
         <div>
           <p className="text-xs text-gray-400">Asignado a</p>
-          <p className="font-medium text-gray-900">{caso.asignadoA}</p>
+          <p className="font-medium text-gray-900">{caso.assignee ?? '—'}</p>
         </div>
         <div>
           <p className="text-xs text-gray-400">Creado</p>
-          <p className="font-medium text-gray-900">{formatDateTime(caso.creadoEn)}</p>
+          <p className="font-medium text-gray-900">{formatDateTime(caso.createdAt)}</p>
         </div>
         <div>
-          <p className="text-xs text-gray-400">SLA</p>
-          <p className={`font-medium ${caso.slaVencido ? 'text-[#C53030]' : 'text-gray-900'}`}>
-            {formatDateTime(caso.slaFecha)}
+          <p className="text-xs text-gray-400">Resolución</p>
+          <p className="font-medium text-gray-900">
+            {caso.solvedAt ? formatDateTime(caso.solvedAt) : '—'}
           </p>
         </div>
       </div>

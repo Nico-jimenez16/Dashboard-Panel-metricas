@@ -11,23 +11,15 @@ interface CaseFiltersProps {
 }
 
 const PRIORIDADES = [
-  { value: '', label: 'Prioridad' },
-  { value: 'critica', label: 'Crítica' },
-  { value: 'alta',    label: 'Alta' },
-  { value: 'media',   label: 'Media' },
-  { value: 'baja',    label: 'Baja' },
-];
-
-const TIPOS = [
-  { value: '', label: 'Tipo' },
-  { value: 'incidente', label: 'Incidente' },
-  { value: 'solicitud', label: 'Solicitud' },
-  { value: 'problema',  label: 'Problema' },
-  { value: 'cambio',    label: 'Cambio' },
+  { value: '',  label: 'Prioridad' },
+  { value: '1', label: 'Crítica' },
+  { value: '2', label: 'Alta' },
+  { value: '3', label: 'Media' },
+  { value: '4', label: 'Baja' },
 ];
 
 export default function CaseFilters({ filters, onChange }: CaseFiltersProps) {
-  const hasFilters = filters.busqueda || filters.prioridad || filters.tipo || filters.area;
+  const hasFilters = filters.busqueda || filters.priority || filters.slaArea;
 
   return (
     <div className="flex flex-wrap items-center gap-3">
@@ -43,33 +35,17 @@ export default function CaseFilters({ filters, onChange }: CaseFiltersProps) {
 
       <select
         className="h-9 rounded-md border border-gray-300 bg-white px-3 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0F4C3A]"
-        value={filters.prioridad ?? ''}
+        value={filters.priority ?? ''}
         onChange={(e) =>
           onChange({
             ...filters,
-            prioridad: (e.target.value as CasesFilters['prioridad']) || undefined,
+            priority: e.target.value || undefined,
             pagina: 1,
           })
         }
       >
         {PRIORIDADES.map((p) => (
           <option key={p.value} value={p.value}>{p.label}</option>
-        ))}
-      </select>
-
-      <select
-        className="h-9 rounded-md border border-gray-300 bg-white px-3 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0F4C3A]"
-        value={filters.tipo ?? ''}
-        onChange={(e) =>
-          onChange({
-            ...filters,
-            tipo: (e.target.value as CasesFilters['tipo']) || undefined,
-            pagina: 1,
-          })
-        }
-      >
-        {TIPOS.map((t) => (
-          <option key={t.value} value={t.value}>{t.label}</option>
         ))}
       </select>
 

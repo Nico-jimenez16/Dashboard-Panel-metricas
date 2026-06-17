@@ -12,27 +12,26 @@ export async function listCases(filters: CasesFilters): Promise<CasesListRespons
 
   let filtered = all;
 
-  if (filters.estado) {
-    filtered = filtered.filter((c) => c.estado === filters.estado);
+  if (filters.status) {
+    const s = filters.status.toLowerCase();
+    filtered = filtered.filter((c) => c.status.toLowerCase() === s);
   }
-  if (filters.prioridad) {
-    filtered = filtered.filter((c) => c.prioridad === filters.prioridad);
+  if (filters.priority) {
+    const p = filters.priority.toLowerCase();
+    filtered = filtered.filter((c) => c.priority?.toLowerCase() === p);
   }
-  if (filters.tipo) {
-    filtered = filtered.filter((c) => c.tipo === filters.tipo);
-  }
-  if (filters.area) {
+  if (filters.slaArea) {
     filtered = filtered.filter((c) =>
-      c.area.toLowerCase().includes(filters.area!.toLowerCase()),
+      c.slaArea?.toLowerCase().includes(filters.slaArea!.toLowerCase()),
     );
   }
   if (filters.busqueda) {
     const q = filters.busqueda.toLowerCase();
     filtered = filtered.filter(
       (c) =>
-        c.titulo.toLowerCase().includes(q) ||
-        c.numero.toLowerCase().includes(q) ||
-        c.descripcion.toLowerCase().includes(q),
+        c.subject?.toLowerCase().includes(q) ||
+        String(c.caseNumber).includes(q) ||
+        c.description?.toLowerCase().includes(q),
     );
   }
 
@@ -48,7 +47,7 @@ export async function listCases(filters: CasesFilters): Promise<CasesListRespons
 
 export async function getCaseById(id: string): Promise<Case> {
   const all = await getCases();
-  const caso = all.find((c) => c.id === id);
+  const caso = all.find((c) => String(c.id) === id);
   if (!caso) throw new NotFoundError('Caso', id);
   return caso;
 }

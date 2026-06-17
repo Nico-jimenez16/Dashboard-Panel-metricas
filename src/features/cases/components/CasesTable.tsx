@@ -13,99 +13,90 @@ import Link from 'next/link';
 import { ArrowUpDown, ArrowUp, ArrowDown, ExternalLink } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { formatDate } from '@/lib/formatters';
-import type { Case, CasePriority, CaseStatus } from '@/types/domain';
+import type { Case } from '@/types/domain';
 
-const STATUS_VARIANT: Record<CaseStatus, 'info' | 'warning' | 'success' | 'secondary'> = {
-  atendido:              'info',
-  cerrado:               'success',
-  derivado:              'secondary',
-  'derivado a proveedor': 'secondary',
-  'devuelto al usuario': 'warning',
-  suspendido:            'secondary',
+const STATUS_VARIANT: Record<string, 'info' | 'warning' | 'success' | 'secondary'> = {
+  Atendido:              'info',
+  Cerrado:               'success',
+  Derivado:              'secondary',
+  'Derivado a proveedor': 'secondary',
+  'Devuelto al usuario': 'warning',
+  Suspendido:            'secondary',
 };
 
-const STATUS_LABEL: Record<CaseStatus, string> = {
-  atendido:              'Atendido',
-  cerrado:               'Cerrado',
-  derivado:              'Derivado',
-  'derivado a proveedor': 'Derivado a Proveedor',
-  'devuelto al usuario': 'Devuelto al Usuario',
-  suspendido:            'Suspendido',
+const STATUS_LABEL: Record<string, string> = {
+  Atendido:              'Atendido',
+  Cerrado:               'Cerrado',
+  Derivado:              'Derivado',
+  'Derivado a proveedor': 'Derivado a Proveedor',
+  'Devuelto al usuario': 'Devuelto al Usuario',
+  Suspendido:            'Suspendido',
 };
 
-const PRIORITY_VARIANT: Record<CasePriority, 'destructive' | 'warning' | 'secondary' | 'outline'> = {
-  critica: 'destructive',
-  alta:    'warning',
-  media:   'secondary',
-  baja:    'outline',
-};
-
-const PRIORITY_LABEL: Record<CasePriority, string> = {
-  critica: 'Crítica',
-  alta:    'Alta',
-  media:   'Media',
-  baja:    'Baja',
+const PRIORITY_VARIANT: Record<string, 'destructive' | 'warning' | 'secondary' | 'outline'> = {
+  '1': 'destructive',
+  '2': 'warning',
+  '3': 'secondary',
+  '4': 'outline',
 };
 
 const col = createColumnHelper<Case>();
 
 const columns = [
-  col.accessor('numero', {
+  col.accessor('caseNumber', {
     header: 'Número',
     cell: (info) => (
       <Link
         href={`/casos/${info.row.original.id}`}
         className="flex items-center gap-1 font-mono text-xs font-medium text-[#0F4C3A] hover:underline"
       >
-        {info.getValue()}
+        {String(info.getValue())}
         <ExternalLink className="h-3 w-3 opacity-60" />
       </Link>
     ),
   }),
-  col.accessor('titulo', {
+  col.accessor('subject', {
     header: 'Título',
     cell: (info) => (
-      <span className="line-clamp-1 max-w-xs text-gray-900">{info.getValue()}</span>
+      <span className="line-clamp-1 max-w-xs text-gray-900">{info.getValue() ?? '—'}</span>
     ),
   }),
-  col.accessor('estado', {
+  col.accessor('status', {
     header: 'Estado',
-    cell: (info) => (
-      <Badge variant={STATUS_VARIANT[info.getValue()]}>
-        {STATUS_LABEL[info.getValue()]}
-      </Badge>
-    ),
+    cell: (info) => {
+      const s = info.getValue();
+      return (
+        <Badge variant={STATUS_VARIANT[s] ?? 'secondary'}>
+          {STATUS_LABEL[s] ?? s}
+        </Badge>
+      );
+    },
   }),
-  col.accessor('prioridad', {
+  col.accessor('priorityLevel', {
     header: 'Prioridad',
-    cell: (info) => (
-      <Badge variant={PRIORITY_VARIANT[info.getValue()]}>
-        {PRIORITY_LABEL[info.getValue()]}
-      </Badge>
-    ),
+    cell: (info) => {
+      const level = info.getValue();
+      const label = info.row.original.priority;
+      return (
+        <Badge variant={PRIORITY_VARIANT[level ?? ''] ?? 'outline'}>
+          {label ?? level ?? '—'}
+        </Badge>
+      );
+    },
   }),
-  col.accessor('area', {
-    header: 'Área',
-    cell: (info) => <span className="text-gray-600 text-xs">{info.getValue()}</span>,
+  col.accessor('slaArea', {
+    header: 'Área SLA',
+    cell: (info) => <span className="text-gray-600 text-xs">{info.getValue() ?? '—'}</span>,
   }),
-  col.accessor('asignadoA', {
+  col.accessor('assignee', {
     header: 'Asignado a',
-    cell: (info) => <span className="text-gray-600 text-sm">{info.getValue()}</span>,
+    cell: (info) => <span className="text-gray-600 text-sm">{info.getValue() ?? '—'}</span>,
   }),
-  col.accessor('creadoEn', {
+  col.accessor('createdAt', {
     header: 'Creado',
     cell: (info) => (
       <span className="text-gray-500 text-xs">{formatDate(info.getValue())}</span>
     ),
-  }),
-  col.accessor('slaVencido', {
-    header: 'SLA',
-    cell: (info) =>
-      info.getValue() ? (
-        <Badge variant="destructive">Vencido</Badge>
-      ) : (
-        <Badge variant="success">OK</Badge>
-      ),
   }),
 ];
 
