@@ -51,3 +51,17 @@ export async function getCaseById(id: string): Promise<Case> {
   if (!caso) throw new NotFoundError('Caso', id);
   return caso;
 }
+
+export async function getRelatedCases(id: string, limit = 5): Promise<Case[]> {
+  const all = await getCases();
+  const caso = all.find((c) => String(c.id) === id);
+  if (!caso) return [];
+  return all
+    .filter(
+      (c) =>
+        String(c.id) !== id &&
+        c.slaArea === caso.slaArea &&
+        c.branchOffice === caso.branchOffice,
+    )
+    .slice(0, limit);
+}
