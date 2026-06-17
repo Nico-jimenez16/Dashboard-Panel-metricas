@@ -1,9 +1,19 @@
 import Link from 'next/link';
 import { ChevronRight, Clock, AlertCircle } from 'lucide-react';
-import { Badge, Button } from '@/components/ui';
+import { Badge } from '@/components/ui';
 import { formatDateTime, formatRelative, elapsedHours } from '@/lib/formatters';
 import { STATUS_VARIANT, STATUS_LABEL, PRIORITY_VARIANT } from '@/features/cases/constants';
 import type { Case } from '@/types/domain';
+
+function initials(name: string | null | undefined): string {
+  if (!name) return '?';
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0].toUpperCase())
+    .join('');
+}
 
 interface CaseDetailHeaderProps {
   caso: Case;
@@ -44,59 +54,53 @@ export default function CaseDetailHeader({ caso }: CaseDetailHeaderProps) {
       </nav>
 
       {/* Title row */}
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1 flex-wrap">
-            <span className="font-mono text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded">
-              CASO #{caso.caseNumber}
-              {caso.typeCode ? ` · ${caso.typeCode}` : ''}
-            </span>
-          </div>
-
-          <h1 className="text-[22px] font-semibold text-gray-900 leading-snug mb-2">
-            {caso.subject ?? '—'}
-          </h1>
-
-          <div className="flex items-center gap-3 flex-wrap">
-            <Badge variant={STATUS_VARIANT[caso.status] ?? 'secondary'}>
-              {STATUS_LABEL[caso.status] ?? caso.status}
-            </Badge>
-            {caso.priorityLevel && (
-              <Badge variant={PRIORITY_VARIANT[caso.priorityLevel] ?? 'outline'}>
-                {caso.priority ?? caso.priorityLevel}
-              </Badge>
-            )}
-            <span className="text-xs text-gray-400">
-              Abierto {formatDateTime(caso.createdAt)} · {formatRelative(caso.createdAt)}
-            </span>
-          </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 mb-1 flex-wrap">
+          <span className="font-mono text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded">
+            CASO #{caso.caseNumber}
+            {caso.typeCode ? ` · ${caso.typeCode}` : ''}
+          </span>
         </div>
 
-        {/* Action buttons */}
-        <div className="flex items-center gap-2 shrink-0 flex-wrap justify-end">
-          <Button variant="outline" size="sm" disabled title="Próximamente">
-            Reasignar
-          </Button>
-          <Button variant="outline" size="sm" disabled title="Próximamente">
-            Cambiar estado
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            disabled
-            title="Próximamente"
-            className="border-red-200 text-red-600 hover:bg-red-50"
-          >
-            Escalar
-          </Button>
-          <Button
-            variant="success"
-            size="sm"
-            disabled
-            title="Próximamente"
-          >
-            Cerrar caso
-          </Button>
+        <h1 className="text-[22px] font-semibold text-gray-900 leading-snug mb-2">
+          {caso.subject ?? '—'}
+        </h1>
+
+        <div className="flex items-center gap-3 flex-wrap">
+          <Badge variant={STATUS_VARIANT[caso.status] ?? 'secondary'}>
+            {STATUS_LABEL[caso.status] ?? caso.status}
+          </Badge>
+          {caso.priorityLevel && (
+            <Badge variant={PRIORITY_VARIANT[caso.priorityLevel] ?? 'outline'}>
+              {caso.priority ?? caso.priorityLevel}
+            </Badge>
+          )}
+          <span className="text-xs text-gray-400">
+            Abierto {formatDateTime(caso.createdAt)} · {formatRelative(caso.createdAt)}
+          </span>
+        </div>
+
+        {/* Requester */}
+        <div className="flex items-center gap-2 mt-2">
+          <div className="h-7 w-7 rounded-full bg-[#0F4C3A] flex items-center justify-center shrink-0">
+            <span className="text-[11px] font-semibold text-white leading-none">
+              {initials(caso.requester)}
+            </span>
+          </div>
+          <span className="text-sm text-gray-700 font-medium">
+            {caso.requester ?? '—'}
+          </span>
+          {caso.requesterEmail && (
+            <>
+              <span className="text-gray-300">·</span>
+              <a
+                href={`mailto:${caso.requesterEmail}`}
+                className="text-xs text-gray-400 hover:text-[#0F4C3A] hover:underline truncate"
+              >
+                {caso.requesterEmail}
+              </a>
+            </>
+          )}
         </div>
       </div>
 

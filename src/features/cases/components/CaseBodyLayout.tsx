@@ -3,9 +3,7 @@
 import { Card, CardContent } from '@/components/ui';
 import CaseTimeline from './CaseTimeline';
 import CaseProperties from './CaseProperties';
-import CaseRequester from './CaseRequester';
 import CaseMetricsCard from './CaseMetricsCard';
-import CaseRelated from './CaseRelated';
 import { useNotes } from '@/features/notes/hooks';
 import type { Case } from '@/types/domain';
 
@@ -42,8 +40,6 @@ export default function CaseBodyLayout({ caso }: CaseBodyLayoutProps) {
       <div className="space-y-4">
         <CaseMetricsCard caso={caso} noteCount={notes.length} />
         <CaseProperties caso={caso} />
-        <CaseRequester caso={caso} />
-        <CaseRelated caseId={String(caso.id)} />
       </div>
     </div>
   );
