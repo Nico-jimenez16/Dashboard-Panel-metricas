@@ -1,6 +1,7 @@
 import { getAllCases } from '@/server/gestar/client';
 import { cacheGetOrSet } from '@/server/cache/memory-cache';
 import { NotFoundError } from '@/server/errors';
+import { buildPredicates } from '@/server/services/caseFilters';
 import type { Case, CasesFilters, CasesListResponse } from '@/types/domain';
 
 async function getCases(): Promise<Case[]> {
@@ -9,31 +10,8 @@ async function getCases(): Promise<Case[]> {
 
 export async function listCases(filters: CasesFilters): Promise<CasesListResponse> {
   const all = await getCases();
-
-  let filtered = all;
-
-  if (filters.status) {
-    const s = filters.status.toLowerCase();
-    filtered = filtered.filter((c) => c.status.toLowerCase() === s);
-  }
-  if (filters.priority) {
-    const p = filters.priority.toLowerCase();
-    filtered = filtered.filter((c) => c.priority?.toLowerCase() === p);
-  }
-  if (filters.slaArea) {
-    filtered = filtered.filter((c) =>
-      c.slaArea?.toLowerCase().includes(filters.slaArea!.toLowerCase()),
-    );
-  }
-  if (filters.busqueda) {
-    const q = filters.busqueda.toLowerCase();
-    filtered = filtered.filter(
-      (c) =>
-        c.subject?.toLowerCase().includes(q) ||
-        String(c.caseNumber).includes(q) ||
-        c.description?.toLowerCase().includes(q),
-    );
-  }
+  const predicates = buildPredicates(filters);
+  const filtered = all.filter((c) => predicates.every((p) => p(c)));
 
   const pagina = filters.pagina ?? 1;
   const porPagina = filters.porPagina ?? 20;

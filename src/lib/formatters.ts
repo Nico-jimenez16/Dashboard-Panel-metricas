@@ -24,3 +24,9 @@ export function formatNumber(n: number): string {
 export function formatPercent(n: number): string {
   return `${n}%`;
 }
+
+export function elapsedHours(createdAt: string, solvedAt: string | null): number {
+  const start = new Date(createdAt).getTime();
+  const end = solvedAt ? new Date(solvedAt).getTime() : Date.now();
+  return Math.floor((end - start) / 3_600_000);
+}

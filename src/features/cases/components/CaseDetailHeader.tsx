@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { ChevronRight, Clock, AlertCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { formatDateTime, formatRelative } from '@/lib/formatters';
+import { formatDateTime, formatRelative, elapsedHours } from '@/lib/formatters';
 import { STATUS_VARIANT, STATUS_LABEL, PRIORITY_VARIANT } from '@/features/cases/constants';
 import type { Case } from '@/types/domain';
 
@@ -10,10 +10,8 @@ interface CaseDetailHeaderProps {
   caso: Case;
 }
 
-function elapsedHours(createdAt: string, solvedAt: string | null): string {
-  const start = new Date(createdAt).getTime();
-  const end = solvedAt ? new Date(solvedAt).getTime() : Date.now();
-  const hours = Math.floor((end - start) / 3_600_000);
+function elapsedLabel(createdAt: string, solvedAt: string | null): string {
+  const hours = elapsedHours(createdAt, solvedAt);
   if (hours < 1) return 'menos de 1 hora';
   if (hours < 24) return `${hours} h transcurridas`;
   const days = Math.floor(hours / 24);
@@ -112,7 +110,7 @@ export default function CaseDetailHeader({ caso }: CaseDetailHeaderProps) {
         <span>
           <span className="font-medium">SLA:</span>{' '}
           {caso.isClosed
-            ? `Caso cerrado — ${elapsedHours(caso.createdAt, caso.solvedAt)}.`
+            ? `Caso cerrado — ${elapsedLabel(caso.createdAt, caso.solvedAt)}.`
             : `Caso abierto — ${elapsedHours(caso.createdAt, null)}. Gestar no expone fecha de vencimiento SLA.`
           }
         </span>

@@ -2,6 +2,7 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { STATUS_LABEL } from '@/features/cases/constants';
+import { elapsedHours } from '@/lib/formatters';
 import type { Case } from '@/types/domain';
 
 interface CaseMetricsCardProps {
@@ -19,9 +20,7 @@ function Metric({ label, value }: { label: string; value: string | number }) {
 }
 
 function elapsedLabel(createdAt: string, solvedAt: string | null): string {
-  const start = new Date(createdAt).getTime();
-  const end = solvedAt ? new Date(solvedAt).getTime() : Date.now();
-  const hours = Math.floor((end - start) / 3_600_000);
+  const hours = elapsedHours(createdAt, solvedAt);
   if (hours < 1) return '< 1 h';
   if (hours < 24) return `${hours} h`;
   const days = Math.floor(hours / 24);

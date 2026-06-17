@@ -27,7 +27,7 @@ export default function CaseTimeline({ caso }: CaseTimelineProps) {
   const events: TimelineEvent[] = [
     {
       id: 'created',
-      type: 'created',
+      type: 'created' as const,
       label: 'Caso creado',
       detail: caso.requester ?? undefined,
       date: caso.createdAt,
