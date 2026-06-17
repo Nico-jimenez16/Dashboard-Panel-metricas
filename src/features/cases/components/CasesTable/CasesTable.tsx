@@ -15,13 +15,19 @@ const caseColumns = [
   col.accessor('caseNumber', {
     header: 'Número',
     cell: (info) => (
-      <Link
-        href={`/casos/${info.row.original.id}`}
-        className="flex items-center gap-1 font-mono text-xs font-medium text-[#0F4C3A] hover:underline"
-      >
-        {String(info.getValue())}
-        <ExternalLink className="h-3 w-3 opacity-60" />
-      </Link>
+      <div className="flex items-center gap-1">
+        <span className="font-mono text-xs font-medium text-gray-700">
+          {String(info.getValue())}
+        </span>
+        <Link
+          href={`/casos/${info.row.original.id}`}
+          onClick={(e) => e.stopPropagation()}
+          className="text-[#0F4C3A] hover:text-[#0F4C3A]/70"
+          title="Abrir página completa"
+        >
+          <ExternalLink className="h-3 w-3 opacity-60" />
+        </Link>
+      </div>
     ),
   }),
   col.accessor('subject', {
@@ -69,7 +75,7 @@ const caseColumns = [
   }),
 ];
 
-export default function CasesTable({ data, isLoading, error }: CasesTableProps) {
+export default function CasesTable({ data, isLoading, error, onRowClick }: CasesTableProps) {
   if (error) {
     return (
       <div className="rounded-lg bg-red-50 p-4 text-red-700 text-sm">
@@ -85,6 +91,7 @@ export default function CasesTable({ data, isLoading, error }: CasesTableProps) 
       getRowId={(c) => String(c.id)}
       emptyMessage="No se encontraron casos."
       loading={isLoading}
+      onRowClick={onRowClick}
     />
   );
 }

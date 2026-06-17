@@ -4,4 +4,5 @@ export interface CasesTableProps {
   data: Case[];
   isLoading: boolean;
   error: string | null;
+  onRowClick?: (caso: Case) => void;
 }
