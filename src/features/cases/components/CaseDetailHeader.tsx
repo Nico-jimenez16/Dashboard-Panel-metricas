@@ -93,10 +93,10 @@ export default function CaseDetailHeader({ caso }: CaseDetailHeaderProps) {
             Escalar
           </Button>
           <Button
+            variant="success"
             size="sm"
             disabled
             title="Próximamente"
-            className="bg-[#6B8E5A] hover:bg-[#5a7a4a] text-white"
           >
             Cerrar caso
           </Button>
