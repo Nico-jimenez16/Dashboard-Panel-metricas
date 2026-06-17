@@ -76,9 +76,11 @@ export default function CasosPage() {
         </div>
       </main>
 
-      {selectedCaseId && (
-        <CasePopup caseId={selectedCaseId} onClose={handleClosePopup} />
-      )}
+      <CasePopup
+        caseId={selectedCaseId}
+        isOpen={Boolean(selectedCaseId)}
+        onClose={handleClosePopup}
+      />
     </>
   );
 }
