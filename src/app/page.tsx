@@ -1,7 +1,7 @@
 'use client';
 
 import { Header } from '@/components/layout';
-import { KPICards, MonthlyTrendChart, StatusDonutChart, CasesByTypeChart, CasesByAreaTable } from '@/features/dashboard/components';
+import { KPICards, MonthlyTrendChart, StatusDonutChart, CasesByServiceChart, CasesByBranchOfficeTable } from '@/features/dashboard/components';
 import { useDashboardMetrics } from '@/features/dashboard/hooks/useDashboardMetrics';
 import { Loader2 } from 'lucide-react';
 
@@ -41,8 +41,8 @@ export default function DashboardPage() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-          <CasesByTypeChart data={data.porTipo} />
-          <CasesByAreaTable data={data.porArea} />
+          <CasesByServiceChart data={data.porServicio} />
+          <CasesByBranchOfficeTable data={data.porSucursal} />
         </div>
       </main>
     </>

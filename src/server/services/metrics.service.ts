@@ -37,11 +37,11 @@ function buildMonthlyTrend(cases: Case[]): MonthlyData[] {
     .slice(-12);
 }
 
-function buildAreaStats(cases: Case[]): AreaStats[] {
+function buildGroupStats(cases: Case[], keyFn: (c: Case) => string | null, fallback: string): AreaStats[] {
   const map = new Map<string, { total: number; cerrados: number }>();
 
   for (const c of cases) {
-    const area = c.slaArea ?? 'Sin área';
+    const area = keyFn(c) ?? fallback;
     const entry = map.get(area) ?? { total: 0, cerrados: 0 };
     entry.total++;
     if (c.isClosed) entry.cerrados++;
@@ -65,13 +65,12 @@ export async function getDashboardMetrics(): Promise<DashboardMetrics> {
     const byStatus = (s: string) =>
       cases.filter((c) => c.status.toLowerCase() === s.toLowerCase()).length;
 
-    // porTipo: agrupado por slaArea (agrupador más significativo disponible)
-    const slaAreaMap = new Map<string, number>();
+    const serviceMap = new Map<string, number>();
     for (const c of cases) {
-      const area = c.slaArea ?? 'Sin área';
-      slaAreaMap.set(area, (slaAreaMap.get(area) ?? 0) + 1);
+      const key = c.service ?? 'Sin servicio';
+      serviceMap.set(key, (serviceMap.get(key) ?? 0) + 1);
     }
-    const porTipo = Array.from(slaAreaMap.entries())
+    const porServicio = Array.from(serviceMap.entries())
       .map(([tipo, cantidad]) => ({ tipo, cantidad }))
       .sort((a, b) => b.cantidad - a.cantidad);
 
@@ -93,8 +92,8 @@ export async function getDashboardMetrics(): Promise<DashboardMetrics> {
         { estado: 'Devuelto al usuario', cantidad: byStatus('Devuelto al usuario') },
         { estado: 'Suspendido',          cantidad: byStatus('Suspendido') },
       ],
-      porTipo,
-      porArea: buildAreaStats(cases),
+      porServicio,
+      porSucursal: buildGroupStats(cases, (c) => c.branchOffice, 'Sin sucursal'),
     };
   });
 }
