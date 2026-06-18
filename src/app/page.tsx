@@ -1,6 +1,6 @@
 'use client';
 
-import Header from '@/components/layout/Header';
+import { Header } from '@/components/layout';
 import { KPICards, MonthlyTrendChart, StatusDonutChart, CasesByTypeChart, CasesByAreaTable } from '@/features/dashboard/components';
 import { useDashboardMetrics } from '@/features/dashboard/hooks/useDashboardMetrics';
 import { Loader2 } from 'lucide-react';
