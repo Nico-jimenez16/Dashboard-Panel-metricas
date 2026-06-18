@@ -37,7 +37,7 @@ export default function DashboardPage() {
           <div className="xl:col-span-2">
             <MonthlyTrendChart data={data.tendenciaMensual} />
           </div>
-          <StatusDonutChart data={data.porEstado} total={data.totalCasos} />
+            <StatusDonutChart data={data.porEstado} total={data.totalCasos} />
         </div>
 
         <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
