@@ -17,3 +17,6 @@ export { Text } from './text/text';
 
 export { Table } from './Table';
 export type { TableProps } from './Table';
+
+export { Popup } from './Popup';
+export type { PopupProps } from './Popup';

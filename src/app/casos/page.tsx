@@ -1,10 +1,12 @@
 'use client';
 
+import { useSearchParams, useRouter } from 'next/navigation';
 import Header from '@/components/layout/Header';
 import SavedViewsTabs from '@/features/cases/components/SavedViewsTabs';
 import CaseFilters from '@/features/cases/components/CaseFilters';
 import CasesTable from '@/features/cases/components/CasesTable';
 import CasesStatsBar from '@/features/cases/components/CasesStatsBar';
+import { CasePopup } from '@/features/cases/components/CasePopup';
 import { useCases } from '@/features/cases/hooks/useCases';
 import { useCasesFilters } from '@/features/cases/hooks/useCasesFilters';
 import { Button } from '@/components/ui';
@@ -13,6 +15,22 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 export default function CasosPage() {
   const { view, setView, filters, setFilters, activeFilters, nextPage, prevPage } = useCasesFilters();
   const { data, isLoading, error } = useCases(activeFilters);
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const selectedCaseId = searchParams.get('caso');
+
+  const handleOpenCase = (id: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('caso', id);
+    router.push(`/casos?${params.toString()}`, { scroll: false });
+  };
+
+  const handleClosePopup = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('caso');
+    router.push(`/casos?${params.toString()}`, { scroll: false });
+  };
 
   return (
     <>
@@ -28,6 +46,7 @@ export default function CasosPage() {
           data={data?.casos ?? []}
           isLoading={isLoading}
           error={error?.message ?? null}
+          onRowClick={(caso) => handleOpenCase(String(caso.id))}
         />
 
         <div className="flex items-center justify-between">
@@ -56,6 +75,12 @@ export default function CasosPage() {
           </div>
         </div>
       </main>
+
+      <CasePopup
+        caseId={selectedCaseId}
+        isOpen={Boolean(selectedCaseId)}
+        onClose={handleClosePopup}
+      />
     </>
   );
 }
