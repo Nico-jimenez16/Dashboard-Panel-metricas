@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Header from '@/components/layout/Header';
 import SavedViewsTabs from '@/features/cases/components/SavedViewsTabs';
@@ -12,7 +13,7 @@ import { useCasesFilters } from '@/features/cases/hooks/useCasesFilters';
 import { Button } from '@/components/ui';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-export default function CasosPage() {
+function CasosContent() {
   const { view, setView, filters, setFilters, activeFilters, nextPage, prevPage } = useCasesFilters();
   const { data, isLoading, error } = useCases(activeFilters);
 
@@ -34,7 +35,6 @@ export default function CasosPage() {
 
   return (
     <>
-      <Header title="Casos" subtitle="Listado de incidentes y solicitudes" />
       <main className="flex-1 overflow-y-auto p-6 space-y-4">
         <SavedViewsTabs value={view} onValueChange={setView} />
 
@@ -81,6 +81,17 @@ export default function CasosPage() {
         isOpen={Boolean(selectedCaseId)}
         onClose={handleClosePopup}
       />
+    </>
+  );
+}
+
+export default function CasosPage() {
+  return (
+    <>
+      <Header title="Casos" subtitle="Listado de incidentes y solicitudes" />
+      <Suspense>
+        <CasosContent />
+      </Suspense>
     </>
   );
 }
