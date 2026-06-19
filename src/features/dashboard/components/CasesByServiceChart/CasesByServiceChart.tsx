@@ -9,6 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   Cell,
+  LabelList,
 } from 'recharts';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui';
 import type { TypeCount } from '@/types/domain';
@@ -35,32 +36,34 @@ export default function CasesByServiceChart({ data }: CasesByServiceChartProps) 
     color: PALETTE[i % PALETTE.length],
   }));
 
+  const chartHeight = Math.max(240, chartData.length * 40);
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Casos por Servicio</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={220}>
+        <ResponsiveContainer width="100%" height={chartHeight}>
           <BarChart
             data={chartData}
             layout="vertical"
-            margin={{ top: 4, right: 24, left: 8, bottom: 4 }}
+            margin={{ top: 4, right: 40, left: 8, bottom: 4 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" horizontal={false} />
             <XAxis
               type="number"
-              tick={{ fontSize: 11, fill: '#6B7280' }}
+              tick={{ fontSize: 12, fill: '#6B7280' }}
               tickLine={false}
               axisLine={false}
             />
             <YAxis
               type="category"
               dataKey="tipo"
-              tick={{ fontSize: 11, fill: '#374151' }}
+              tick={{ fontSize: 13, fill: '#374151' }}
               tickLine={false}
               axisLine={false}
-              width={140}
+              width={175}
             />
             <Tooltip
               contentStyle={{
@@ -74,6 +77,11 @@ export default function CasesByServiceChart({ data }: CasesByServiceChartProps) 
               {chartData.map((entry, index) => (
                 <Cell key={index} fill={entry.color} />
               ))}
+              <LabelList
+                dataKey="cantidad"
+                position="right"
+                style={{ fontSize: 12, fill: '#374151' }}
+              />
             </Bar>
           </BarChart>
         </ResponsiveContainer>
