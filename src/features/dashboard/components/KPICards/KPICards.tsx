@@ -75,19 +75,19 @@ export default function KPICards({ metrics }: KPICardsProps) {
   ];
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
       {cards.map((card) => (
         <Card key={card.label} className={`border-l-4 ${card.border}`}>
-          <CardContent className="p-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">{card.label}</p>
-                <p className="mt-1 text-3xl font-bold text-gray-900">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between gap-2">
+              <div className="min-w-0">
+                <p className="truncate text-xs text-gray-500">{card.label}</p>
+                <p className="mt-1 text-2xl font-bold text-gray-900">
                   {formatNumber(card.value)}
                 </p>
               </div>
-              <div className={`rounded-full p-3 ${card.bg}`}>
-                <card.icon className={`h-6 w-6 ${card.iconColor}`} />
+              <div className={`shrink-0 rounded-full p-2 ${card.bg}`}>
+                <card.icon className={`h-5 w-5 ${card.iconColor}`} />
               </div>
             </div>
           </CardContent>

@@ -8,8 +8,7 @@ export function byStatus(filters: CasesFilters): (c: Case) => boolean {
 
 export function byPriority(filters: CasesFilters): (c: Case) => boolean {
   if (!filters.priority) return () => true;
-  const p = filters.priority.toLowerCase();
-  return (c) => c.priority?.toLowerCase() === p;
+  return (c) => c.priorityLevel === filters.priority;
 }
 
 export function bySlaArea(filters: CasesFilters): (c: Case) => boolean {

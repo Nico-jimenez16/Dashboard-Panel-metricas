@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import Header from '@/components/layout/Header';
+import { Header } from '@/components/layout';
 import SavedViewsTabs from '@/features/cases/components/SavedViewsTabs';
 import CaseFilters from '@/features/cases/components/CaseFilters';
 import CasesTable from '@/features/cases/components/CasesTable';

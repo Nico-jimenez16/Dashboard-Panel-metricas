@@ -71,8 +71,8 @@ export interface DashboardMetrics {
   slaVencidos: number;
   tendenciaMensual: MonthlyData[];
   porEstado: StatusCount[];
-  porTipo: TypeCount[];
-  porArea: AreaStats[];
+  porServicio: TypeCount[];
+  porSucursal: AreaStats[];
 }
 
 export interface CasesListResponse {

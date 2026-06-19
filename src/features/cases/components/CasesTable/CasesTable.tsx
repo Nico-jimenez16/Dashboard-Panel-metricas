@@ -16,9 +16,14 @@ const caseColumns = [
     header: 'Número',
     cell: (info) => (
       <div className="flex items-center gap-1">
-        <span className="font-mono text-xs font-medium text-gray-700">
+        <Link
+          href={`/casos/${info.row.original.id}`}
+          onClick={(e) => e.stopPropagation()}
+          className="font-mono text-xs font-medium text-gray-700 hover:underline"
+          title="Abrir página completa"
+        >
           {String(info.getValue())}
-        </span>
+        </Link>
         <Link
           href={`/casos/${info.row.original.id}`}
           onClick={(e) => e.stopPropagation()}

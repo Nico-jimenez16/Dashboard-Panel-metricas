@@ -32,10 +32,6 @@ function addDays(date: Date, days: number): Date {
 
 const SLA_AREAS = [
   'MICROINFORMATICA',
-  'SEGURIDAD INFORMATICA',
-  'REDES Y COMUNICACIONES',
-  'SERVIDORES',
-  'TELECOM',
 ];
 
 const SERVICES = [
@@ -65,7 +61,7 @@ const STATES = [
 ];
 const STATE_WEIGHTS = [0.25, 0.20, 0.25, 0.15, 0.10, 0.05];
 
-const PRIORITIES_VALUES = ['Critica_1', 'Alta_2', 'Media_3', 'Baja_4'];
+const PRIORITIES_VALUES = ['Critica', 'Alta', 'Media', 'Baja'];
 const PRIORITY_LEVELS   = ['1', '2', '3', '4'];
 const PRIORITY_WEIGHTS  = [0.08, 0.22, 0.40, 0.30];
 
@@ -79,9 +75,22 @@ const SUCURSALES = [
   '030 - VILLA DOLORES',
   '035 - ALTA GRACIA',
   '040 - JESUS MARIA',
+  '045 - COSQUIN',
+  '050 - VILLA CARLOS PAZ',
+  '055 - LA FALDA',
+  '060 - DEAN FUNES',
+  '065 - CRUZ DEL EJE',
+  '070 - ARROYITO',
+  '075 - VILLA GENERAL BELGRANO',
+  '080 - MINA CLAVERO',
+  '085 - LA CALERA',
+  '090 - RIO TERCERO',
+  '095 - RIO SEGUNDO',
   '345 - LABOULAYE',
   '350 - MARCOS JUAREZ',
   '355 - ONCATIVO',
+  '360 - LAS VARILLAS',
+  '365 - MORTEROS',
 ];
 
 const RESPONSIBLES = [

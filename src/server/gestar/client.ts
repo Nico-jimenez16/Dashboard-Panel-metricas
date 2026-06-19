@@ -6,12 +6,12 @@ import type { Case } from '@/types/domain';
 
 
 async function fetchFromGestar(): Promise<Case[]> {
-  if (!env.GESTAR_API_URL || !env.GESTAR_API_KEY) {
-    throw new Error('GESTAR_API_URL and GESTAR_API_KEY are required when USE_MOCK=false');
+  if (!env.GESTAR_API_URL || !env.GESTAR_API_TOKEN) {
+    throw new Error('GESTAR_API_URL and GESTAR_API_TOKEN are required when USE_MOCK=false');
   }
 
   const res = await fetch(`${env.GESTAR_API_URL}/casos`, {
-    headers: { Authorization: `Bearer ${env.GESTAR_API_KEY}` },
+    headers: { Authorization: `Bearer ${env.GESTAR_API_TOKEN}` },
     next: { revalidate: 60 },
   });
 
