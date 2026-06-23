@@ -18,6 +18,17 @@ export const STATUS_LABEL: Record<string, string> = {
   Suspendido:             'Suspendido',
 };
 
+// Hex equivalentes de STATUS_VARIANT (mismos tokens que usa Badge en globals.css),
+// para usos que necesitan un color plano en vez de una clase Tailwind (ej. gráficos).
+export const STATUS_COLOR: Record<string, string> = {
+  Atendido:               '#2563A6', // azul-kpi (variant info)
+  Cerrado:                '#6B8E5A', // verde-claro-kpi (variant success)
+  Derivado:               '#9CA3AF', // gris (variant secondary)
+  'Derivado a proveedor': '#9CA3AF', // gris (variant secondary)
+  'Devuelto al usuario':  '#D97706', // amarillo-curso (variant warning)
+  Suspendido:             '#9CA3AF', // gris (variant secondary)
+};
+
 export const PRIORITY_VARIANT: Record<string, BadgeProps['variant']> = {
   '1': 'destructive',
   '2': 'warning',
