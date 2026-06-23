@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient } from '@/lib/api-client';
-import type { CreateCasePayload } from '@/components/ui/forms/CreateCaseForm/CreateCaseForm.schema';
+import type { CreateCasePayload } from '@/features/cases/components/CreateCaseForm/CreateCaseForm.schema';
 
 export function useCreateCase() {
   const queryClient = useQueryClient();

@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 import { Popup } from '@/components/ui';
-import { CreateCaseForm } from '@/components/ui/forms/CreateCaseForm';
-import { createCaseSchema } from '@/components/ui/forms/CreateCaseForm/CreateCaseForm.schema';
+import { CreateCaseForm } from '@/features/cases/components/CreateCaseForm';
+import { createCaseSchema } from '@/features/cases/components/CreateCaseForm/CreateCaseForm.schema';
 import type {
   CreateCaseFormData,
   CreateCaseFormErrors,
-} from '@/components/ui/forms/CreateCaseForm';
+} from '@/features/cases/components/CreateCaseForm';
 import { useCreateCase } from '@/features/cases/hooks/useCreateCase';
 
 const INITIAL_STATE: CreateCaseFormData = {

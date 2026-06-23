@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { listCases, createCase } from '@/server/services/cases.service';
 import { casesFiltersSchema } from '@/server/gestar/schemas';
-import { createCaseSchema } from '@/components/ui/forms/CreateCaseForm/CreateCaseForm.schema';
+import { createCaseSchema } from '@/features/cases/components/CreateCaseForm/CreateCaseForm.schema';
 import { AppError, ValidationError, validationErrorFromZod, appErrorBody } from '@/server/errors';
 
 export async function GET(req: NextRequest) {

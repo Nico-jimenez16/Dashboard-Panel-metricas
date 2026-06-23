@@ -4,7 +4,7 @@ import type {
   CasesListResponse,
   DashboardMetrics,
 } from '@/types/domain';
-import type { CreateCasePayload } from '@/components/ui/forms/CreateCaseForm/CreateCaseForm.schema';
+import type { CreateCasePayload } from '@/features/cases/components/CreateCaseForm/CreateCaseForm.schema';
 
 async function apiFetch<T>(path: string): Promise<T> {
   const res = await fetch(`/api${path}`);
