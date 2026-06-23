@@ -9,7 +9,7 @@ const MES_ORDER = [
   'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic',
 ];
 
-function buildMonthlyTrend(cases: Case[]): MonthlyData[] {
+export function buildMonthlyTrend(cases: Case[]): MonthlyData[] {
   const map = new Map<string, { recibidos: number; cerrados: number }>();
 
   for (const c of cases) {
@@ -37,7 +37,7 @@ function buildMonthlyTrend(cases: Case[]): MonthlyData[] {
     .slice(-12);
 }
 
-function buildGroupStats(cases: Case[], keyFn: (c: Case) => string | null, fallback: string): AreaStats[] {
+export function buildGroupStats(cases: Case[], keyFn: (c: Case) => string | null, fallback: string): AreaStats[] {
   const map = new Map<string, { total: number; cerrados: number }>();
 
   for (const c of cases) {
