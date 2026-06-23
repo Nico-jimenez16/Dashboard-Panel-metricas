@@ -4,12 +4,26 @@ import type {
   CasesListResponse,
   DashboardMetrics,
 } from '@/types/domain';
+import type { CreateCasePayload } from '@/components/ui/forms/CreateCaseForm/CreateCaseForm.schema';
 
 async function apiFetch<T>(path: string): Promise<T> {
   const res = await fetch(`/api${path}`);
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
     throw new Error(body.error ?? `Error ${res.status}`);
+  }
+  return res.json() as Promise<T>;
+}
+
+async function apiPost<T>(path: string, body: unknown): Promise<T> {
+  const res = await fetch(`/api${path}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const b = await res.json().catch(() => ({}));
+    throw new Error(b.error ?? `Error ${res.status}`);
   }
   return res.json() as Promise<T>;
 }
@@ -55,5 +69,9 @@ export const apiClient = {
       throw new Error(body.error ?? `Error ${res.status}`);
     }
     return res.json() as Promise<{ token: string }>;
+  },
+
+  createCase(payload: CreateCasePayload): Promise<{ id: number }> {
+    return apiPost<{ id: number }>('/casos', payload);
   },
 };

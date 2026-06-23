@@ -20,3 +20,15 @@ export type { TableProps } from './Table';
 
 export { Popup } from './Popup';
 export type { PopupProps } from './Popup';
+
+export { Label } from './label/label';
+export type { LabelProps } from './label/label.types';
+
+export { Select } from './select/select';
+export type { SelectProps, SelectOption } from './select/select.types';
+
+export { Textarea } from './textarea/textarea';
+export type { TextareaProps } from './textarea/textarea.types';
+
+export { FormField } from './formField/formField';
+export type { FormFieldProps } from './formField/formField.types';

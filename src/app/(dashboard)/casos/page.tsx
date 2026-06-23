@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Header } from '@/components/layout';
 import SavedViewsTabs from '@/features/cases/components/SavedViewsTabs';
@@ -8,6 +8,7 @@ import CaseFilters from '@/features/cases/components/CaseFilters';
 import CasesTable from '@/features/cases/components/CasesTable';
 import CasesStatsBar from '@/features/cases/components/CasesStatsBar';
 import { CasePopup } from '@/features/cases/components/CasePopup';
+import { CreateCasePopup } from '@/features/cases/components/CreateCasePopup';
 import { useCases } from '@/features/cases/hooks/useCases';
 import { useCasesFilters } from '@/features/cases/hooks/useCasesFilters';
 import { Button } from '@/components/ui';
@@ -20,6 +21,8 @@ function CasosContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const selectedCaseId = searchParams.get('caso');
+
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
 
   const handleOpenCase = (id: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -35,6 +38,11 @@ function CasosContent() {
 
   return (
     <>
+      <Header
+        title="Casos"
+        subtitle="Listado de incidentes y solicitudes"
+        onCreateCase={() => setIsCreateOpen(true)}
+      />
       <main className="flex-1 overflow-y-auto p-6 space-y-4">
         <SavedViewsTabs value={view} onValueChange={setView} />
 
@@ -81,17 +89,18 @@ function CasosContent() {
         isOpen={Boolean(selectedCaseId)}
         onClose={handleClosePopup}
       />
+      <CreateCasePopup
+        isOpen={isCreateOpen}
+        onClose={() => setIsCreateOpen(false)}
+      />
     </>
   );
 }
 
 export default function CasosPage() {
   return (
-    <>
-      <Header title="Casos" subtitle="Listado de incidentes y solicitudes" />
-      <Suspense>
-        <CasosContent />
-      </Suspense>
-    </>
+    <Suspense>
+      <CasosContent />
+    </Suspense>
   );
 }

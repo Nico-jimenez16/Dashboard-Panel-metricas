@@ -3,10 +3,13 @@
 import { Header } from '@/components/layout';
 import { KPICards, MonthlyTrendChart, StatusDonutChart, CasesByServiceChart, CasesByBranchOfficeTable } from '@/features/dashboard/components';
 import { useDashboardMetrics } from '@/features/dashboard/hooks/useDashboardMetrics';
+import { CreateCasePopup } from '@/features/cases/components/CreateCasePopup';
 import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
 
 export default function DashboardPage() {
   const { data, isLoading, error } = useDashboardMetrics();
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -29,6 +32,7 @@ export default function DashboardPage() {
       <Header
         title="Dashboard"
         subtitle="Resumen de incidentes IT — Banco de Córdoba"
+        onCreateCase={() => setIsCreateOpen(true)}
       />
       <main className="flex-1 overflow-y-auto p-6 space-y-6">
         <KPICards metrics={data} />
@@ -45,6 +49,10 @@ export default function DashboardPage() {
           <CasesByBranchOfficeTable data={data.porSucursal} />
         </div>
       </main>
+      <CreateCasePopup
+        isOpen={isCreateOpen}
+        onClose={() => setIsCreateOpen(false)}
+      />
     </>
   );
 }

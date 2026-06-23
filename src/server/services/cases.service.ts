@@ -1,4 +1,4 @@
-import { getAllCases } from '@/server/gestar/client';
+import { getAllCases, createCaseInGestar } from '@/server/gestar/client';
 import { cacheGetOrSet } from '@/server/cache/memory-cache';
 import { NotFoundError } from '@/server/errors';
 import { buildPredicates } from '@/server/services/caseFilters';
@@ -28,6 +28,10 @@ export async function getCaseById(id: string): Promise<Case> {
   const caso = all.find((c) => String(c.id) === id);
   if (!caso) throw new NotFoundError('Caso', id);
   return caso;
+}
+
+export async function createCase(payload: unknown): Promise<{ id: number }> {
+  return createCaseInGestar(payload);
 }
 
 export async function getRelatedCases(id: string, limit = 5): Promise<Case[]> {

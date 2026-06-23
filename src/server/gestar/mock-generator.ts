@@ -66,7 +66,7 @@ const PRIORITY_LEVELS   = ['1', '2', '3', '4'];
 const PRIORITY_WEIGHTS  = [0.08, 0.22, 0.40, 0.30];
 
 const SUCURSALES = [
-  '001 - CASA CENTRAL',
+  '001 - MATRIZ CASA CENTRAL',
   '002 - CORDOBA CENTRO',
   '010 - VILLA MARIA',
   '015 - RIO CUARTO',
@@ -103,8 +103,6 @@ const RESPONSIBLES = [
   'Pérez, E.',
   'Lizio, C.',
   'Acrich, J.',
-  'Gomez, R.',
-  'Torres, F.',
 ];
 
 const REQUESTERS = [
