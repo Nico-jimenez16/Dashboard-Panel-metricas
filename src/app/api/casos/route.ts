@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { listCases, createCase } from '@/server/services/cases.service';
 import { casesFiltersSchema } from '@/server/gestar/schemas';
 import { createCaseSchema } from '@/components/ui/forms/CreateCaseForm/CreateCaseForm.schema';
-import { AppError } from '@/server/errors';
+import { AppError, validationErrorFromZod, appErrorBody } from '@/server/errors';
 
 export async function GET(req: NextRequest) {
   try {
@@ -18,17 +18,14 @@ export async function GET(req: NextRequest) {
     });
 
     if (!parsed.success) {
-      return NextResponse.json(
-        { error: 'Parámetros inválidos', detalles: parsed.error.flatten() },
-        { status: 400 },
-      );
+      throw validationErrorFromZod(parsed.error, 'Parámetros inválidos');
     }
 
     const result = await listCases(parsed.data);
     return NextResponse.json(result);
   } catch (err) {
     if (err instanceof AppError) {
-      return NextResponse.json({ error: err.message }, { status: err.statusCode });
+      return NextResponse.json(appErrorBody(err), { status: err.statusCode });
     }
     console.error('[GET /api/casos]', err);
     return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
@@ -40,16 +37,13 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const parsed = createCaseSchema.safeParse(body);
     if (!parsed.success) {
-      return NextResponse.json(
-        { error: 'Datos inválidos', detalles: parsed.error.flatten() },
-        { status: 400 },
-      );
+      throw validationErrorFromZod(parsed.error, 'Datos inválidos');
     }
     const result = await createCase(parsed.data);
     return NextResponse.json(result, { status: 201 });
   } catch (err) {
     if (err instanceof AppError) {
-      return NextResponse.json({ error: err.message }, { status: err.statusCode });
+      return NextResponse.json(appErrorBody(err), { status: err.statusCode });
     }
     console.error('[POST /api/casos]', err);
     return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });

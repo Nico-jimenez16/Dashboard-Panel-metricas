@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getRelatedCases } from '@/server/services/cases.service';
-import { AppError } from '@/server/errors';
+import { AppError, appErrorBody } from '@/server/errors';
 
 export async function GET(
   _req: NextRequest,
@@ -12,7 +12,7 @@ export async function GET(
     return NextResponse.json(casos);
   } catch (err) {
     if (err instanceof AppError) {
-      return NextResponse.json({ error: err.message }, { status: err.statusCode });
+      return NextResponse.json(appErrorBody(err), { status: err.statusCode });
     }
     console.error('[GET /api/casos/[id]/relacionados]', err);
     return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 });
