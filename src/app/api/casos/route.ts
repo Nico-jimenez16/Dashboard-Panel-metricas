@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { listCases, createCase } from '@/server/services/cases.service';
 import { casesFiltersSchema } from '@/server/gestar/schemas';
 import { createCaseSchema } from '@/components/ui/forms/CreateCaseForm/CreateCaseForm.schema';
-import { AppError, validationErrorFromZod, appErrorBody } from '@/server/errors';
+import { AppError, ValidationError, validationErrorFromZod, appErrorBody } from '@/server/errors';
 
 export async function GET(req: NextRequest) {
   try {
@@ -34,7 +34,13 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      throw new ValidationError('Body JSON inválido');
+    }
+
     const parsed = createCaseSchema.safeParse(body);
     if (!parsed.success) {
       throw validationErrorFromZod(parsed.error, 'Datos inválidos');
