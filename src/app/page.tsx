@@ -1,50 +1,25 @@
-'use client';
+import { env } from '@/server/env';
+import LoginForm from '@/features/auth/components/LoginForm';
 
-import { Header } from '@/components/layout';
-import { KPICards, MonthlyTrendChart, StatusDonutChart, CasesByServiceChart, CasesByBranchOfficeTable } from '@/features/dashboard/components';
-import { useDashboardMetrics } from '@/features/dashboard/hooks/useDashboardMetrics';
-import { Loader2 } from 'lucide-react';
-
-export default function DashboardPage() {
-  const { data, isLoading, error } = useDashboardMetrics();
-
-  if (isLoading) {
-    return (
-      <div className="flex flex-1 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-[#0F4C3A]" />
-      </div>
-    );
-  }
-
-  if (error || !data) {
-    return (
-      <div className="flex flex-1 items-center justify-center">
-        <p className="text-red-500">Error al cargar las métricas.</p>
-      </div>
-    );
-  }
-
+export default function LoginPage() {
   return (
-    <>
-      <Header
-        title="Dashboard"
-        subtitle="Resumen de incidentes IT — Banco de Córdoba"
-      />
-      <main className="flex-1 overflow-y-auto p-6 space-y-6">
-        <KPICards metrics={data} />
-
-        <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
-          <div className="xl:col-span-2">
-            <MonthlyTrendChart data={data.tendenciaMensual} />
-          </div>
-            <StatusDonutChart data={data.porEstado} total={data.totalCasos} />
+    <div className="flex h-screen flex-col md:flex-row">
+      <div className="flex w-full flex-col justify-center gap-4 bg-[#0F4C3A] px-10 py-12 text-white md:w-2/5">
+        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white">
+          <span className="text-sm font-bold text-[#0F4C3A]">M</span>
         </div>
-
-        <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
-          <CasesByServiceChart data={data.porServicio} />
-          <CasesByBranchOfficeTable data={data.porSucursal} />
+        <div>
+          <p className="text-xl font-semibold">Microinformática</p>
+          <p className="text-sm text-white/70">Banco de Córdoba</p>
         </div>
-      </main>
-    </>
+        <p className="max-w-sm text-sm text-white/80">
+          Accedé a la gestión de incidentes IT. Seguimiento, estados y casos centralizados.
+        </p>
+      </div>
+
+      <div className="flex flex-1 items-center justify-center bg-white px-6 py-12">
+        <LoginForm defaultLoginName={env.LOGIN_NAME} defaultPassword={env.PASSWORD} />
+      </div>
+    </div>
   );
 }

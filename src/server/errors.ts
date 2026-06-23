@@ -20,3 +20,9 @@ export class ValidationError extends AppError {
     super(message, 'VALIDATION_ERROR', 400);
   }
 }
+
+export class UnauthorizedError extends AppError {
+  constructor(message = 'Usuario o contraseña incorrectos') {
+    super(message, 'UNAUTHORIZED', 401);
+  }
+}

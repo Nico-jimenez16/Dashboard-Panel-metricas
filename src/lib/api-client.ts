@@ -5,10 +5,8 @@ import type {
   DashboardMetrics,
 } from '@/types/domain';
 
-const BASE = '/api';
-
 async function apiFetch<T>(path: string): Promise<T> {
-  const res = await fetch(`${BASE}${path}`);
+  const res = await fetch(`/api${path}`);
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
     throw new Error(body.error ?? `Error ${res.status}`);
@@ -44,5 +42,18 @@ export const apiClient = {
 
   getDashboardMetrics(): Promise<DashboardMetrics> {
     return apiFetch<DashboardMetrics>('/metricas/dashboard');
+  },
+
+  async login(loginName: string, password: string): Promise<{ token: string }> {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ loginName, password }),
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new Error(body.error ?? `Error ${res.status}`);
+    }
+    return res.json() as Promise<{ token: string }>;
   },
 };

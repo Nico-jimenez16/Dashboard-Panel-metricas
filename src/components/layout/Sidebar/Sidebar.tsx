@@ -11,7 +11,7 @@ import {
 import { cn } from '@/lib/utils';
 
 const NAV_ITEMS = [
-  { href: '/',       label: 'Dashboard',   icon: LayoutDashboard },
+  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/casos',  label: 'Casos',       icon: Ticket },
 ] as const;
 
@@ -38,8 +38,7 @@ export default function Sidebar() {
       <nav className="flex-1 overflow-y-auto px-3 py-4">
         <ul className="space-y-1">
           {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
-            const active =
-              href === '/' ? pathname === '/' : pathname.startsWith(href);
+            const active = pathname.startsWith(href);
             return (
               <li key={href}>
                 <Link
