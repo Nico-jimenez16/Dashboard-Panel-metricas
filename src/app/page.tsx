@@ -1,6 +1,10 @@
 import { env } from '@/server/env';
 import LoginForm from '@/features/auth/components/LoginForm';
 
+const isDev = process.env.NODE_ENV === 'development';
+const defaultLoginName = isDev ? env.LOGIN_NAME : '';
+const defaultPassword = isDev ? env.PASSWORD : '';
+
 export default function LoginPage() {
   return (
     <div className="flex h-screen flex-col md:flex-row">
@@ -18,7 +22,7 @@ export default function LoginPage() {
       </div>
 
       <div className="flex flex-1 items-center justify-center bg-white px-6 py-12">
-        <LoginForm defaultLoginName={env.LOGIN_NAME} defaultPassword={env.PASSWORD} />
+        <LoginForm defaultLoginName={defaultLoginName} defaultPassword={defaultPassword} />
       </div>
     </div>
   );
