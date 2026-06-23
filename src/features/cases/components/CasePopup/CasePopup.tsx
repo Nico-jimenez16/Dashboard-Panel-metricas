@@ -3,7 +3,7 @@
 import { Popup } from '@/components/ui';
 import { useCase } from '@/features/cases/hooks/useCase';
 import CaseBodyLayout from '@/features/cases/components/CaseBodyLayout';
-import CasePopupHeader from './CasePopupHeader';
+import { CaseHeader } from '@/features/cases/components/CaseHeader';
 
 interface CasePopupProps {
   caseId: string | null;
@@ -23,7 +23,7 @@ export default function CasePopup({ caseId, isOpen, onClose }: CasePopupProps) {
       )}
       {caso && (
         <>
-          <CasePopupHeader caso={caso} />
+          <CaseHeader caso={caso} variant="popup" />
           <div className="p-6">
             <CaseBodyLayout caso={caso} />
           </div>

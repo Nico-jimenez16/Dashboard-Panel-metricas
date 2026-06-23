@@ -2,7 +2,7 @@
 
 import { use } from 'react';
 import { useCase } from '@/features/cases/hooks/useCase';
-import CaseDetailHeader from '@/features/cases/components/CaseDetailHeader';
+import { CaseHeader } from '@/features/cases/components/CaseHeader';
 import CaseBodyLayout from '@/features/cases/components/CaseBodyLayout';
 import { Loader2 } from 'lucide-react';
 
@@ -34,7 +34,7 @@ export default function CasoPage({ params }: CasoPageProps) {
 
   return (
     <>
-      <CaseDetailHeader caso={caso} />
+      <CaseHeader caso={caso} variant="page" />
       <main className="flex-1 overflow-y-auto p-6">
         <CaseBodyLayout caso={caso} />
       </main>
