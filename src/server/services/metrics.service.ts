@@ -1,5 +1,6 @@
 import { getAllCases } from '@/server/gestar/client';
 import { cacheGetOrSet } from '@/server/cache/memory-cache';
+import { CACHE_KEYS } from '@/server/cache/keys';
 import type { Case, DashboardMetrics, MonthlyData, AreaStats } from '@/types/domain';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -59,7 +60,7 @@ export function buildGroupStats(cases: Case[], keyFn: (c: Case) => string | null
 }
 
 export async function getDashboardMetrics(): Promise<DashboardMetrics> {
-  return cacheGetOrSet('dashboard_metrics', async () => {
+  return cacheGetOrSet(CACHE_KEYS.dashboardMetrics, async () => {
     const cases = await getAllCases();
 
     const byStatus = (s: string) =>

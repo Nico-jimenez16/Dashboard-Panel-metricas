@@ -21,6 +21,10 @@ export function cacheSet<T>(key: string, value: T, ttlMs = env.CACHE_TTL_MS): vo
   store.set(key, { value, expiresAt: Date.now() + ttlMs });
 }
 
+export function cacheDelete(key: string): void {
+  store.delete(key);
+}
+
 export async function cacheGetOrSet<T>(
   key: string,
   factory: () => Promise<T>,

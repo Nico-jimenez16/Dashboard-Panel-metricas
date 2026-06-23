@@ -1,11 +1,12 @@
 import { getAllCases, createCaseInGestar } from '@/server/gestar/client';
-import { cacheGetOrSet } from '@/server/cache/memory-cache';
+import { cacheGetOrSet, cacheDelete } from '@/server/cache/memory-cache';
+import { CACHE_KEYS } from '@/server/cache/keys';
 import { NotFoundError } from '@/server/errors';
 import { buildPredicates } from '@/server/services/caseFilters';
 import type { Case, CasesFilters, CasesListResponse } from '@/types/domain';
 
 async function getCases(): Promise<Case[]> {
-  return cacheGetOrSet('all_cases', getAllCases);
+  return cacheGetOrSet(CACHE_KEYS.allCases, getAllCases);
 }
 
 export async function listCases(filters: CasesFilters): Promise<CasesListResponse> {
@@ -31,7 +32,10 @@ export async function getCaseById(id: string): Promise<Case> {
 }
 
 export async function createCase(payload: unknown): Promise<{ id: number }> {
-  return createCaseInGestar(payload);
+  const result = await createCaseInGestar(payload);
+  cacheDelete(CACHE_KEYS.allCases);
+  cacheDelete(CACHE_KEYS.dashboardMetrics);
+  return result;
 }
 
 export async function getRelatedCases(id: string, limit = 5): Promise<Case[]> {
